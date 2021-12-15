@@ -6,7 +6,10 @@ import android.os.Bundle
 import android.widget.Button
 
 class MainActivity : AppCompatActivity() {
+    val CODIGO_RESPUESTA_INTENT_EXPLICITO = 401
+    var
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -23,6 +26,11 @@ class MainActivity : AppCompatActivity() {
                 irActividad(BListView::class.java)
             }
 
+        val botonIntent = findViewById<Button>(R.id.btn_intent)
+        botonIntent
+            .setOnClickListener {
+                abrirAbrirConParametros(CIntentExplicitoParametros::class.java)
+            }
 
     }
 
@@ -30,4 +38,16 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, clase)
         startActivity(intent)
     }
+
+    fun abrirAbrirConParametros(clase: Class<*>){
+        val intentExplicito = Intent(this, clase)
+        //Enviar parametreos (Solamente variables primitivas)
+        intentExplicito.putExtra("nombre","Sergio")
+        intentExplicito.putExtra("apellido","Jimenez")
+        intentExplicito.putExtra("edad",23)
+        startActivityForResult(intent, CODIGO_RESPUESTA_INTENT_EXPLICITO)
+        startActivity(intent)
+    }
+
+
 }
