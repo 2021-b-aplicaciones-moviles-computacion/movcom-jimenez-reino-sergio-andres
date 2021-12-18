@@ -1,14 +1,29 @@
 package com.example.myapplication
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
+
 
 class MainActivity : AppCompatActivity() {
     val CODIGO_RESPUESTA_INTENT_EXPLICITO = 401
-    var
+    var resultLauncher = registerForActivityResult(
+        ActivityResultConstrast.StartActivityForResult()
+    ){
+        result ->
+        if (result.resultCode == RESULT_OK){
+            if(result.data != null){
+                val data = result.data
+                Log.i("intent","${data?.getStringExtra("nombreModificado")}")
+                Log.i("intent","${data?.getStringExtra("edadModificado",0)}")
+            }
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
+
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -45,8 +60,7 @@ class MainActivity : AppCompatActivity() {
         intentExplicito.putExtra("nombre","Sergio")
         intentExplicito.putExtra("apellido","Jimenez")
         intentExplicito.putExtra("edad",23)
-        startActivityForResult(intent, CODIGO_RESPUESTA_INTENT_EXPLICITO)
-        startActivity(intent)
+        resultLauncher.launch(intentExplicito)
     }
 
 

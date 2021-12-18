@@ -22,7 +22,7 @@ class BListView : AppCompatActivity() {
         val adaptador = ArrayAdapter(
             this, //Contexto
             android.R.layout.simple_list_item_1, //Como se va a ver en el XML
-            arreglo //Arreglo
+            BBaseDatosMemoria.arregloBEntrenador //Arreglo
         )
         listView.adapter = adaptador
         adaptador.notifyDataSetChanged()
@@ -31,7 +31,7 @@ class BListView : AppCompatActivity() {
 
         botonAnadirlistView
             .setOnClickListener{
-                anadirItem(adaptador,arreglo,1)
+                anadirItem(adaptador,BBaseDatosMemoria.arregloBEntrenador,1)
             }
  /*       listView
             .setOnItemLongClickListener{
@@ -129,11 +129,11 @@ class BListView : AppCompatActivity() {
 
 
     fun anadirItem(
-        adaptador: ArrayAdapter<Int>,
-        arreglo: ArrayList<Int>,
+        adaptador: ArrayAdapter<BEntrenador>,
+        arreglo: ArrayList<BEntrenador>,
         valor: Int
     ){
-        arreglo.add(valor)
+        arreglo.add(BEntrenador("otro","o@o.com"))
         adaptador.notifyDataSetChanged()
     }
 

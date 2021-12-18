@@ -1,3 +1,5 @@
+import java.io.File
+
 fun main(){
     println("Hello World")
     //tipos de variables
@@ -38,10 +40,12 @@ fun main(){
         }
         "UN" -> println("Hablar")
         else -> println("No reconocido")
+
     }
 
     fun imprimirNombre(nombre: String){
         println("Nombre: ${nombre}")
+        val data = re
     }
 
     fun calcularSueldo(
@@ -221,6 +225,7 @@ class Suma(
 
     fun sumar(): Int {
         val total: Int = numeroUno + numeroDos
+
         return total
     }
 
@@ -274,6 +279,8 @@ dos
     fun sumar(): Int {
         val total: Int = numeroUno + numeroDos
         agregarHistorial(total)
+        val file = File("hola").writeText("hola")
+        val bufferedReader = file.
         return total
     }
 
