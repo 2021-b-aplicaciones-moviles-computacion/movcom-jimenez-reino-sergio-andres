@@ -75,6 +75,9 @@ class Persona (
                 }
                 data += text[i] + "\n"
             }
+            if(data.equals("")){
+                file.delete()
+            }
             file.writeText(data)
 
         }
@@ -96,6 +99,22 @@ class Persona (
 
             }
             file.writeText(data)
+        }
+
+        fun validarIdPersona(id:String):Boolean{
+            var res = false
+            val file = File(ruta)
+            var text:List<String> = file.readLines()
+            var data:String=""
+            for(line in text){
+                var valLine = line.toString().split(",").get(0)
+                if (valLine.equals(id)){
+                    res = true
+                    break
+                }
+
+            }
+            return res
         }
     }
 

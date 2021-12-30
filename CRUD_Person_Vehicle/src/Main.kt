@@ -3,6 +3,7 @@ import java.sql.DriverManager
 import java.util.*
 import kotlin.collections.ArrayList
 import Persona
+import java.lang.NumberFormatException
 
 fun main(){
     var next:Boolean = true
@@ -14,8 +15,18 @@ fun main(){
         println("1. Administrar Persona")
         println("2. Administrar Vehículo")
         println("0. Salir")
-        print("\n Opción: ")
-        option = readLine()!!.toInt()
+
+
+        do {
+            print("\n Opción: ")
+            try {
+                option = readLine()!!.toInt()
+                break
+            }catch (e: NumberFormatException){
+                println("Ingrese una de las opciones")
+            }
+
+        }while(true)
         when (option){
             (0) -> {
                 next=false
@@ -40,8 +51,6 @@ fun menuPersona(){
     var apellido: String;
     var edad:Int;
     var sexo:Char
-    var aportacion:Double
-    var fechaRegistro: Date
     var objPersona:Persona
 
     var id:String
@@ -61,8 +70,18 @@ fun menuPersona(){
         println("3. Actualizar Persona")
         println("4. Eliminar Persona")
         println("0. Salir del programa")
-        print("\n Opción: ")
-        option = readLine()!!.toInt()
+
+        do {
+            print("\n Opción: ")
+            try {
+                option = readLine()!!.toInt()
+                break
+            }catch (e: NumberFormatException){
+                println("Ingrese una de las opciones")
+            }
+
+        }while(true)
+
         when (option){
             (0) -> {
                 next = false
@@ -119,12 +138,16 @@ fun menuPersona(){
                 personaString = Persona.leerPersona(id)
                 if(!personaString.equals("ID no encontrado")) {
                     mostrarPersona(personaString)
-                    println("¿Quiere eliminar a esta Persona?")
+                    val vehiculos = Vehiculo.contarVehiculos(id)
+                    println("Esta persona cuenta con ${vehiculos} Vehiculos \n ¿Quiere eliminar a esta Persona?")
                     do {
                         print("Ingrese S/N: ")
                         var eli = readLine().toString()
                         if (eli.equals("S")) {
                             Persona.eliminarPersona(id)
+                            if(vehiculos>0){
+                                Vehiculo.eliminarVehiculos(id)
+                            }
                         }
                     }while (!eli.equals("S") && !eli.equals("N"))
 
@@ -147,7 +170,6 @@ fun menuVehiculo(){
     var estado:Char
     var avalado:Double
     var idPersona: String
-    var fechaRegistro: Date
 
     var objVehiculo:Vehiculo
 
@@ -167,40 +189,56 @@ fun menuVehiculo(){
         println("3. Actualizar Vehiculo")
         println("4. Eliminar Vehiculo")
         println("0. Salir del programa")
-        print("\n Opción: ")
-        option = readLine()!!.toInt()
+
+        do {
+            print("\n Opción: ")
+            try {
+                option = readLine()!!.toInt()
+                break
+            }catch (e: NumberFormatException){
+                println("Ingrese una de las opciones")
+            }
+
+        }while(true)
         when (option){
             (0) -> {
                 next = false
             }
             (1) -> {
-                println("Ingrese los datos del Vehiculo \n")
-                print("tipo de Vehículo: ")
-                tipo = readLine().toString()
-                print("Color: ")
-                color = readLine().toString()
-                print("Número de llantas: ")
-                llantas = readLine()!!.toInt()
-                print("Motorizado? (true/false): ")
-                motorizado = readLine().toBoolean()
-                print("Estado (Bueno=B/ Regular=R/ Malo=M): ")
-                estado = readLine()!![0]
-                print("Avalado por: ")
-                avalado = readLine()!!.toDouble()
-                print("ID del Dueño: ")
+                print("Ingrese el ID del Dueño del vehículo: ")
                 idPersona = readLine().toString()
+                val res = Persona.validarIdPersona(idPersona)
+                if(res){
+                    println("Ingrese los datos del Vehiculo \n")
+                    print("tipo de Vehículo: ")
+                    tipo = readLine().toString()
+                    print("Color: ")
+                    color = readLine().toString()
+                    print("Número de llantas: ")
+                    llantas = readLine()!!.toInt()
+                    print("Motorizado? (true/false): ")
+                    motorizado = readLine().toBoolean()
+                    print("Estado (Bueno=B/ Regular=R/ Malo=M): ")
+                    estado = readLine()!![0]
+                    print("Avalado por: ")
+                    avalado = readLine()!!.toDouble()
 
-                objVehiculo = Vehiculo(
-                    cod,
-                    tipo,
-                    color,
-                    llantas,
-                    motorizado,
-                    estado,
-                    avalado,
-                    idPersona
-                )
-                Vehiculo.crearVehiculo(objVehiculo)
+
+                    objVehiculo = Vehiculo(
+                        cod,
+                        tipo,
+                        color,
+                        llantas,
+                        motorizado,
+                        estado,
+                        avalado,
+                        idPersona
+                    )
+                    Vehiculo.crearVehiculo(objVehiculo)
+                }else{
+                    println("La persona no existe o el ID de la persona es incorrecto")
+                }
+
 
             }
             (2) -> {
@@ -256,7 +294,7 @@ fun menuVehiculo(){
                 VehiculoString = Vehiculo.leerVehiculo(cod)
                 if(!VehiculoString.equals("ID no encontrado")) {
                     mostrarVehiculo(VehiculoString)
-                    println("¿Quiere eliminar a esta Vehiculo?")
+                    println("¿Quiere eliminar a este Vehiculo?")
                     do {
                         print("Ingrese S/N: ")
                         var eli = readLine().toString()

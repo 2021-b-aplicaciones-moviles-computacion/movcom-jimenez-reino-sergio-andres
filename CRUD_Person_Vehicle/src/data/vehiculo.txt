@@ -1,0 +1,1 @@
+2,bicicleta,azul,2,R,true,72.0,1

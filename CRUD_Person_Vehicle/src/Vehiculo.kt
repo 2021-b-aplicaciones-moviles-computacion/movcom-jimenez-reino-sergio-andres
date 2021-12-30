@@ -19,17 +19,12 @@ class Vehiculo (
             var vehiculoArchivo = ""
 
             vehiculoArchivo = vehiculoToString(objVehiculo) + "\n"
-            val valor = validarIdPersona(objVehiculo.idPersona)
 
             var fileExists = file.exists()
             if(!fileExists){
                 println("El archivo NO existe")
             }
-            if (valor) {
                 file.appendText(vehiculoArchivo)
-            }else{
-                println("La persona no existe o el ID de la persona es incorrecto")
-            }
 
         }
 
@@ -82,6 +77,9 @@ class Vehiculo (
                 }
 
             }
+            if(data.equals("")){
+                file.delete()
+            }
             file.writeText(data)
         }
 
@@ -98,20 +96,44 @@ class Vehiculo (
             return vehiculoArchivo
         }
 
-        fun validarIdPersona(id:String):Boolean{
-            var res = false
-            val file = File("src/data/persona.txt")
+
+
+        fun eliminarVehiculos(id: String){
+            val file = File(ruta)
             var text:ArrayList<String> = file.readLines() as ArrayList<String>
             var data:String=""
-            for(line in text.withIndex()){
-                var valLine = line.toString().split(",").get(0)
-                if (valLine.equals(id)){
-                    res = true
+            for((i,line) in text.withIndex()){
+
+                var idVal:String = line.toString().split(",").get(7)
+
+                if (idVal.equals(id)){
+                    text.remove(line)
+                }
+                try {
+                    data += text[i] + "\n"
+                } catch (e: Exception){
                     break
                 }
-
             }
-            return res
+            if(data.equals("")){
+                file.delete()
+            }
+            file.writeText(data)
+        }
+
+        fun contarVehiculos(id: String):Int{
+            val file = File(ruta)
+            var text:List<String> = file.readLines()
+            var num:Int = 0;
+            for(line in text){
+                var idVal:String = line.toString().split(",").get(7)
+
+                if (idVal.equals(id)){
+                    println("${idVal} y ${id}")
+                    num+=1
+                }
+            }
+            return num
         }
     }
 

@@ -75,4 +75,9 @@ class ACicloVida : AppCompatActivity() {
         super.onDestroy()
         Log.i("ciclo_vida", "onDestroy")
     }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("ciclo_vida", "onResume")
+    }
 }
