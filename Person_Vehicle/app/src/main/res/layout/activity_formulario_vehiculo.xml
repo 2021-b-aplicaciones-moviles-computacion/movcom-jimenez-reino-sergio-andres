@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Formulario_Vehiculo">
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Formulario Vehículo"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.066" />
+
+    <EditText
+        android:id="@+id/txt_placa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Placa"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/textView6"
+        app:layout_constraintStart_toStartOf="@+id/textView6"
+        tools:layout_editor_absoluteY="111dp" />
+
+    <EditText
+        android:id="@+id/txt_tipo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Tipo"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/txt_placa"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/txt_placa"
+        tools:layout_editor_absoluteY="167dp" />
+
+    <EditText
+        android:id="@+id/txt_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Color"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/txt_tipo"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/txt_tipo"
+        tools:layout_editor_absoluteY="225dp" />
+
+    <EditText
+        android:id="@+id/txt_numero_llantas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Número de llantas"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="@+id/txt_color"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/txt_color"
+        tools:layout_editor_absoluteY="284dp" />
+
+    <EditText
+        android:id="@+id/txt_avaluo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Avaluo"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="@+id/txt_numero_llantas"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/txt_numero_llantas"
+        tools:layout_editor_absoluteY="343dp" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Motorizado"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/txt_avaluo"
+        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintStart_toStartOf="@+id/txt_avaluo"
+        tools:layout_editor_absoluteY="408dp" />
+
+    <RadioGroup
+        android:id="@+id/rdg_motorizado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/txt_avaluo"
+        app:layout_constraintHorizontal_bias="0.455"
+        app:layout_constraintStart_toStartOf="@+id/txt_avaluo"
+        tools:layout_editor_absoluteY="445dp">
+
+        <RadioButton
+            android:id="@+id/rdb_motorizado_si"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SI" />
+
+        <RadioButton
+            android:id="@+id/rdb_motorizado_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Estado"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/rdg_motorizado"
+        app:layout_constraintStart_toStartOf="@+id/rdg_motorizado"
+        tools:layout_editor_absoluteY="511dp" />
+
+    <RadioGroup
+        android:id="@+id/rdg_estado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/textView8"
+        app:layout_constraintHorizontal_bias="0.472"
+        app:layout_constraintStart_toStartOf="@+id/textView8"
+        tools:layout_editor_absoluteY="541dp">
+
+        <RadioButton
+            android:id="@+id/rdb_estado_bueno"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bueno" />
+
+        <RadioButton
+            android:id="@+id/rdb_estado_regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Regular" />
+
+        <RadioButton
+            android:id="@+id/rdb_estado_malo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Malo" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_registrar_vehiculo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Guardar"
+        app:layout_constraintEnd_toEndOf="@+id/rdg_estado"
+        app:layout_constraintStart_toStartOf="@+id/rdg_estado"
+        tools:layout_editor_absoluteY="630dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

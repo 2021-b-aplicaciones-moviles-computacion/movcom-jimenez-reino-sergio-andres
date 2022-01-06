@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Person_Vehicle">
         <activity
+            android:name=".Formulario_Vehiculo"
+            android:exported="false" />
+        <activity
+            android:name=".Formulario_Persona"
+            android:exported="false" />
+        <activity
             android:name=".Vehiculo"
             android:exported="false" />
         <activity
