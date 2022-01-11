@@ -2,22 +2,16 @@ package com.example.person_vehicle
 
 class BD_Vehiculo {
     companion object{
-        val arregloVehiculos = arrayListOf<Vehiculo>()
+        val arregloVehiculos = arrayListOf<Obj_Vehiculo>()
 
 
         init {
-            arregloBEntrenador
+            arregloVehiculos
                 .add(
-                    BEntrenador("Sergio","s@s.com")
+                    Obj_Vehiculo("DBZ-100","CSV", "Rojo", 2,15000.00, "Si","Bueno","000001")
                 )
-            arregloBEntrenador
-                .add(
-                    BEntrenador("Vicente", "b@b.com")
-                )
-            arregloBEntrenador
-                .add(
-                    BEntrenador("Vicente", "b@b.com")
-                )
+
         }
     }
 }
+

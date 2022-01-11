@@ -10,8 +10,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val botonCicloVida = findViewById<Button>(R.id.btn_comenzar)
-        botonCicloVida
+        val botonInicio = findViewById<Button>(R.id.btn_comenzar)
+        botonInicio
             .setOnClickListener {
                 irActividad(Persona::class.java)
             }
