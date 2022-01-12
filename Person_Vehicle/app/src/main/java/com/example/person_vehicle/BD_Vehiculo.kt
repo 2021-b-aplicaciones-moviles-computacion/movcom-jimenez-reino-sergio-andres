@@ -8,7 +8,7 @@ class BD_Vehiculo {
         init {
             arregloVehiculos
                 .add(
-                    Obj_Vehiculo("DBZ-100","CSV", "Rojo", 2,15000.00, "Si","Bueno","000001")
+                    Obj_Vehiculo("DBZ-100","CSV", "Rojo", 2,15000.00, "Si","Bueno","0")
                 )
 
         }

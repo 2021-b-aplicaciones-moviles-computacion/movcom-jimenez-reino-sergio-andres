@@ -9,12 +9,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        irActividad(Persona::class.java)
 
-        val botonInicio = findViewById<Button>(R.id.btn_comenzar)
-        botonInicio
-            .setOnClickListener {
-                irActividad(Persona::class.java)
-            }
+
     }
 
     fun irActividad(clase: Class<*>){

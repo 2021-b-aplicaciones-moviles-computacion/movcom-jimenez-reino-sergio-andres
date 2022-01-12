@@ -15,14 +15,23 @@ import androidx.recyclerview.widget.RecyclerView
 
 class Persona : AppCompatActivity() {
     val CREAR_PERSONA = 0
-    val LEER_PERSONA = 1
     val ACTUALIZAR_PERSONA = 2
-    val ELIMINAR_PERSONA = 3
+
 
     var idItemSeleccionado = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_persona)
+
+        val listPersonas = findViewById<ListView>(R.id.tv_lista_personas)
+        val adaptador = ArrayAdapter(
+            this, //Contexto
+            android.R.layout.simple_list_item_1, //Como se va a ver en el XML
+            BD_Persona.arregloPersonas //Arreglo
+        )
+        listPersonas.adapter = adaptador
+        adaptador.notifyDataSetChanged()
+        registerForContextMenu(listPersonas)
 
 
 
@@ -79,7 +88,7 @@ class Persona : AppCompatActivity() {
 
                     BD_Persona.arregloPersonas.add(Obj_Persona(id,nombre,apellido,edad.toInt(),sexo))
                     adaptador.notifyDataSetChanged()
-                    registerForContextMenu(listPersonas)
+                    //registerForContextMenu(listPersonas)
                 }
             }
             ACTUALIZAR_PERSONA ->{
@@ -97,7 +106,7 @@ class Persona : AppCompatActivity() {
                         if (value.id ==id){
                             BD_Persona.arregloPersonas.set(index,Obj_Persona(id,nombre,apellido,edad.toInt(),sexo) )
                             adaptador.notifyDataSetChanged()
-                            registerForContextMenu(listPersonas)
+                            //registerForContextMenu(listPersonas)
                         }
                         index++
                     }
@@ -105,6 +114,7 @@ class Persona : AppCompatActivity() {
 
                 }
             }
+
         }
 
 
@@ -125,6 +135,14 @@ class Persona : AppCompatActivity() {
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
+        val listPersonas = findViewById<ListView>(R.id.tv_lista_personas)
+        val adaptador = ArrayAdapter(
+            this, //Contexto
+            android.R.layout.simple_list_item_1, //Como se va a ver en el XML
+            BD_Persona.arregloPersonas //Arreglo
+        )
+        listPersonas.adapter = adaptador
+        adaptador.notifyDataSetChanged()
         return when(item.itemId){
             R.id.mi_editar_persona ->{
                 irActividadParametros(Formulario_Persona::class.java)
@@ -133,11 +151,14 @@ class Persona : AppCompatActivity() {
 
             R.id.mi_eliminar_persona -> {
                 BD_Persona.arregloPersonas.removeAt(idItemSeleccionado)
+                adaptador.notifyDataSetChanged()
+                registerForContextMenu(listPersonas)
                 return true
             }
 
             R.id.mi_ver_vehiculos -> {
                 Log.i("context-menu", "Ver vehículos: ${idItemSeleccionado}")
+                irActividadParametros(Vehiculo::class.java)
                 return true
             }
 

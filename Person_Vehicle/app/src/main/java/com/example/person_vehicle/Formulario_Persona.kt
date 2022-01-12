@@ -18,7 +18,6 @@ class Formulario_Persona : AppCompatActivity() {
         val txt_apellido = findViewById<EditText>(R.id.txt_apellido)
         val txt_edad = findViewById<EditText>(R.id.txt_edad)
         val rbg_sexo = findViewById<RadioGroup>(R.id.rdg_sexo)
-        var rbo_option:RadioButton
 
 
         val edad:Int = intent.getIntExtra("edad",0)
