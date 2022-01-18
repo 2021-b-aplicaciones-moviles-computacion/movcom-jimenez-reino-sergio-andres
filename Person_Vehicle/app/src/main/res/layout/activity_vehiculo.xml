@@ -43,11 +43,14 @@
 
     <ListView
         android:id="@+id/tv_lista_vehiculos"
-        android:layout_width="382dp"
-        android:layout_height="480dp"
-        android:layout_marginTop="36dp"
+        android:layout_width="365dp"
+        android:layout_height="484dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_add_vehiculo"
-        tools:layout_editor_absoluteX="14dp" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btn_return_persona"

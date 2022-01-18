@@ -151,7 +151,8 @@ class Persona : AppCompatActivity() {
 
             R.id.mi_eliminar_persona -> {
                 val auxPersona =  BD_Persona.arregloPersonas[idItemSeleccionado]
-                for (value in BD_Vehiculo.arregloVehiculos){
+                val auxArrVehiculos = BD_Vehiculo.arregloVehiculos
+                for (value in auxArrVehiculos){
                     if (value.persona_id == auxPersona.id){
                         BD_Vehiculo.arregloVehiculos.remove(value)
                     }

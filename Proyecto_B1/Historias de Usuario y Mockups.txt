@@ -1,0 +1,24 @@
+Integrantes:
+
+Alvarez Jeremy
+Jiménez Sergio
+
+
+Nombre de la aplicación: "Siempre a tu lado"
+
+
+Descripción:
+
+Aplicación móvil se encarga de monitorear la ubicación de un adulto mayor opr medio de geolocalización 
+en tiempo real. La aplicación permite registrar encargardos que pueden registrar tanto lugar de residencia como información de 
+los adultos mayores para su posterior monitoreo. La aplicación permitira establecer el perimetro o rango máximo de movilidad de
+la residencia del adulto mayor. Se notificará al encargado si el adulto mayor sale de los limites asignados de su residencia a
+a su vez dando la posibilidad de generar una ruta de encuentro con el mismo.
+
+
+Historias de usuario.
+https://trello.com/invite/b/Elz9w51V/b8e58f973d9c318b6ce1ef5180d0d1be/proyecto-de-aplicaciones-m%C3%B3viles
+
+
+Mockups.
+https://www.figma.com/file/uWeyUSZS43OgcJ4KxiT0Qm/Mockups_MA?node-id=0%3A1
