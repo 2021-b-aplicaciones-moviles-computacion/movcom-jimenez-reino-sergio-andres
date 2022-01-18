@@ -22,33 +22,37 @@ class Formulario_Vehiculo : AppCompatActivity() {
         val rbg_estado = findViewById<RadioGroup>(R.id.rdg_estado)
         val rbg_motorizado = findViewById<RadioGroup>(R.id.rdg_motorizado)
 
-
-
         val txt_persona_id = intent.getStringExtra("persona_id")
 
-        /*
-       txt_id.setText(intent.getStringExtra("id"))
-       txt_nombre.setText(intent.getStringExtra("nombre"))
-       txt_apellido.setText(intent.getStringExtra("apellido"))
-       txt_edad.setText(edad.toString())
-       val txt_sexo = intent.getStringExtra("sexo")
-       Log.i("Sexo", txt_sexo.toString())
 
-       if(txt_sexo=="Masculino"){
-           rbg_sexo.check(R.id.rdb_masculino)
-       }
-       if(txt_sexo=="Femenino"){
-           rbg_sexo.check(R.id.rdb_femenino)
-       }
-       if(txt_sexo=="Otro"){
-           rbg_sexo.check(R.id.rdb_otro)
+        txt_placa.setText(intent.getStringExtra("placa"))
+        txt_tipo.setText(intent.getStringExtra("tipo"))
+        txt_color.setText(intent.getStringExtra("color"))
+        txt_llantas.setText(intent.getIntExtra("numero_llantas",0).toString())
+        txt_avaluo.setText(intent.getDoubleExtra("avaluo",0.0).toString())
+        val txt_motorizado = intent.getStringExtra("motorizado")
+        val txt_estado = intent.getStringExtra("estado")
+
+        if(txt_motorizado=="Si"){
+           rbg_motorizado.check(R.id.rdb_motorizado_si)
+        }
+        if(txt_motorizado=="No"){
+           rbg_motorizado.check(R.id.rdb_motorizado_no)
+        }
+        if(txt_estado=="Bueno"){
+           rbg_estado.check(R.id.rdb_estado_bueno)
+        }
+        if(txt_estado=="Regular"){
+            rbg_estado.check(R.id.rdb_estado_regular)
+        }
+        if(txt_estado=="Malo"){
+            rbg_estado.check(R.id.rdb_estado_malo)
+        }
+
+       if(txt_placa.text.toString()!=""){
+           txt_placa.isEnabled = false
        }
 
-       if(edad!=0){
-           txt_id.isEnabled = false
-       }
-
-       */
         val botonGuardar = findViewById<Button>(R.id.btn_registrar_vehiculo)
 
 
@@ -57,7 +61,7 @@ class Formulario_Vehiculo : AppCompatActivity() {
             val radioButton_Idmotorizado = rbg_motorizado.checkedRadioButtonId
             val txt_motorizado = findViewById<RadioButton>(radioButton_Idmotorizado)
             val radioButton_Idestado = rbg_estado.checkedRadioButtonId
-            val txt_estado = findViewById<RadioButton>(radioButton_Idmotorizado)
+            val txt_estado = findViewById<RadioButton>(radioButton_Idestado)
             val intentDevolverPersona = Intent()
             intentDevolverPersona.putExtra("placa",txt_placa.text.toString())
             intentDevolverPersona.putExtra("tipo",txt_tipo.text.toString())

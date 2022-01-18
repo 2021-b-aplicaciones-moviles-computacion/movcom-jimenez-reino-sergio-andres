@@ -150,9 +150,16 @@ class Persona : AppCompatActivity() {
             }
 
             R.id.mi_eliminar_persona -> {
-                BD_Persona.arregloPersonas.removeAt(idItemSeleccionado)
+                val auxPersona =  BD_Persona.arregloPersonas[idItemSeleccionado]
+                for (value in BD_Vehiculo.arregloVehiculos){
+                    if (value.persona_id == auxPersona.id){
+                        BD_Vehiculo.arregloVehiculos.remove(value)
+                    }
+                }
+                BD_Persona.arregloPersonas.remove(auxPersona)
                 adaptador.notifyDataSetChanged()
                 registerForContextMenu(listPersonas)
+
                 return true
             }
 
