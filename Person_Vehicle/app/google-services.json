@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "166608657907",
+    "project_id": "person-vehicle",
+    "storage_bucket": "person-vehicle.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:166608657907:android:0b0719a3545fd4264cc686",
+        "android_client_info": {
+          "package_name": "com.example.person_vehicle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "166608657907-08l759895qkug866dbq7399jk469fcbj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiS1qLGIExD4RjxUQs9wgi-q2ax1i59jA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "166608657907-08l759895qkug866dbq7399jk469fcbj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
