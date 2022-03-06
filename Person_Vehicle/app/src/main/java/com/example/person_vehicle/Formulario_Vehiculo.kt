@@ -77,7 +77,7 @@ class Formulario_Vehiculo : AppCompatActivity() {
 
             )
             val db = Firebase.firestore
-            val referencia = db.collection("Persona")
+            val referencia = db.collection("Vehiculo")
             referencia
                 .add(nuevaVehiculo)
                 .addOnSuccessListener {

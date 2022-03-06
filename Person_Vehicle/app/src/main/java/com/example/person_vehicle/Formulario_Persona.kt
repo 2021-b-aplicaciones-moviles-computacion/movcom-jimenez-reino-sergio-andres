@@ -23,7 +23,38 @@ class Formulario_Persona : AppCompatActivity() {
         val txt_edad = findViewById<EditText>(R.id.txt_edad)
         val rbg_sexo = findViewById<RadioGroup>(R.id.rdg_sexo)
 
+        txt_id.isEnabled = false
 
+
+        //Firestore
+
+        if (intent.getBooleanExtra("actualizar",false)){
+            val objPersona:Obj_Persona = intent.getParcelableExtra<Obj_Persona>("Persona")!!
+            txt_id.setText(objPersona.id.toString())
+            txt_nombre.setText(objPersona.nombre.toString())
+            txt_apellido.setText(objPersona.apellido.toString())
+            txt_edad.setText(objPersona.edad.toString())
+            val txt_sexo = objPersona.sexo.toString()
+
+            Log.i("Error","${txt_sexo}")
+
+            if(txt_sexo=="Masculino"){
+                rbg_sexo.check(R.id.rdb_masculino)
+            }
+            if(txt_sexo=="Femenino"){
+                rbg_sexo.check(R.id.rdb_femenino)
+            }
+            if(txt_sexo=="Otro"){
+                rbg_sexo.check(R.id.rdb_otro)
+            }
+
+
+        }
+
+
+
+        //Local
+        /*
         val edad:Int = intent.getIntExtra("edad",0)
         Log.i("Edad", edad.toString())
         txt_id.setText(intent.getStringExtra("id"))
@@ -46,7 +77,7 @@ class Formulario_Persona : AppCompatActivity() {
         if(edad!=0){
             txt_id.isEnabled = false
         }
-
+        */
 
         val botonGuardar = findViewById<Button>(R.id.btn_registrar_persona)
 
@@ -92,26 +123,50 @@ class Formulario_Persona : AppCompatActivity() {
         )
         val db = Firebase.firestore
         val referencia = db.collection("Persona")
-        referencia
-            .add(nuevaPersona)
-            .addOnSuccessListener {
-                Log.i("Mensaje","Persona guardada")
-            }
-            .addOnFailureListener {
-                Log.i("Error","No se pudo guardar la Persona")
-            }
+        if(id.equals("")){
+            referencia
+                .add(nuevaPersona)
+                .addOnSuccessListener {
+                    Log.i("Mensaje","Persona guardada")
+                }
+                .addOnFailureListener {
+                    Log.i("Error","No se pudo guardar la Persona")
+                }
+        }else{
+            referencia
+                .document("${id}")
+                .update(
+                    "apellido",  apellido,
+                    "edad",  edad.toInt(),
+                    "nombre",  nombre,
+                    "sexo",  sexo
+                )
+                .addOnSuccessListener {
+                    Log.i("Mensaje","Persona actualizada")
+                }
+                .addOnFailureListener {
+                    Log.i("Error","No se pudo actualizar la Persona")
+                }
+        }
+
 
         //Local
+        /*
         val intentDevolverPersona = Intent()
         intentDevolverPersona.putExtra("id",id)
         intentDevolverPersona.putExtra("nombre",nombre)
         intentDevolverPersona.putExtra("apellido",apellido)
         intentDevolverPersona.putExtra("edad",edad)
         intentDevolverPersona.putExtra("sexo",sexo)
+
         setResult(
             RESULT_OK,
             intentDevolverPersona
         )
+
+    */
+
+
         finish()
     }
 

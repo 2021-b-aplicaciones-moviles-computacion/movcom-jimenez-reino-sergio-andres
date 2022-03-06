@@ -12,35 +12,67 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import java.util.*
 
 class Persona : AppCompatActivity() {
     val CREAR_PERSONA = 0
     val ACTUALIZAR_PERSONA = 2
 
+    val db = Firebase.firestore
+    val personas = db.collection("Persona")
+    var idItemSeleccionado = -1
+    var adaptador: ArrayAdapter<Obj_Persona>? = null
 
-    var idItemSeleccionado = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_persona)
 
-        val listPersonas = findViewById<ListView>(R.id.tv_lista_personas)
-        val adaptador = ArrayAdapter(
-            this, //Contexto
-            android.R.layout.simple_list_item_1, //Como se va a ver en el XML
-            BD_Persona.arregloPersonas //Arreglo
-        )
-        listPersonas.adapter = adaptador
-        adaptador.notifyDataSetChanged()
-        registerForContextMenu(listPersonas)
-
-
+        actualizarLista()
 
         val botonAddPersona = findViewById<Button>(R.id.btn_add_persona)
         botonAddPersona
             .setOnClickListener {
-                irActividad(Formulario_Persona::class.java)
+                irActividadParametros(Formulario_Persona::class.java)
+            }
+
+
+    }
+
+    fun actualizarLista(){
+        val listPersonas = findViewById<ListView>(R.id.tv_lista_personas)
+
+        personas.get().addOnSuccessListener {
+            result ->
+            var listaPersonas = arrayListOf<Obj_Persona>()
+
+            for (document in result){
+                listaPersonas.add(
+                    Obj_Persona(
+                        document.id.toString(),
+                        document.get("nombre").toString(),
+                        document.get("apellido").toString(),
+                        document.get("edad").toString().toInt(),
+                        document.get("sexo").toString()
+                    )
+                )
 
             }
+
+            adaptador = ArrayAdapter(
+                this, //Contexto
+                android.R.layout.simple_expandable_list_item_1, //Como se va a ver en el XML
+                listaPersonas //Arreglo
+            )
+
+            listPersonas.adapter = adaptador
+            adaptador!!.notifyDataSetChanged()
+            registerForContextMenu(listPersonas)
+        }.addOnFailureListener{
+            Log.i("Error", "Fallo al obtener personas")
+        }
+
 
 
     }
@@ -54,6 +86,16 @@ class Persona : AppCompatActivity() {
         val intentExplicito = Intent(this, clase)
         //Enviar parametreos (Solamente variables primitivas)
 
+        //Firestore
+        if (idItemSeleccionado > -1){
+            val objPersona:Obj_Persona = adaptador!!.getItem(idItemSeleccionado)!!
+            intentExplicito.putExtra("Persona",objPersona)
+            intentExplicito.putExtra("actualizar",true)
+        }
+
+
+        //Local
+        /*
         val objPersona:Obj_Persona = BD_Persona.arregloPersonas[idItemSeleccionado]
         intentExplicito.putExtra("id",objPersona.id)
         intentExplicito.putExtra("nombre",objPersona.nombre)
@@ -61,64 +103,13 @@ class Persona : AppCompatActivity() {
         intentExplicito.putExtra("edad",objPersona.edad)
         intentExplicito.putExtra("sexo",objPersona.sexo)
         //resultLauncher.launch(intentExplicito)
+         */
+        idItemSeleccionado=-1
         startActivityForResult(intentExplicito, ACTUALIZAR_PERSONA)
     }
 
 
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        val listPersonas = findViewById<ListView>(R.id.tv_lista_personas)
-        val adaptador = ArrayAdapter(
-            this, //Contexto
-            android.R.layout.simple_list_item_1, //Como se va a ver en el XML
-            BD_Persona.arregloPersonas //Arreglo
-        )
-        listPersonas.adapter = adaptador
-        adaptador.notifyDataSetChanged()
-        when (requestCode){
-            CREAR_PERSONA ->{
-                if (resultCode == RESULT_OK){
-
-                    val id= "${data?.getStringExtra("id")}"
-                    val nombre= "${data?.getStringExtra("nombre")}"
-                    val apellido="${data?.getStringExtra("apellido")}"
-                    val edad= "${data?.getStringExtra("edad")}"
-                    val sexo = "${data?.getStringExtra("sexo")}"
-
-                    BD_Persona.arregloPersonas.add(Obj_Persona(id,nombre,apellido,edad.toInt(),sexo))
-                    adaptador.notifyDataSetChanged()
-                    //registerForContextMenu(listPersonas)
-                }
-            }
-            ACTUALIZAR_PERSONA ->{
-                if (resultCode == RESULT_OK){
-
-                    val id= "${data?.getStringExtra("id")}"
-                    val nombre= "${data?.getStringExtra("nombre")}"
-                    val apellido="${data?.getStringExtra("apellido")}"
-                    val edad= "${data?.getStringExtra("edad")}"
-                    val sexo = "${data?.getStringExtra("sexo")}"
-
-                    val arregloPersona = BD_Persona.arregloPersonas
-                    var index = 0
-                    for ( value in arregloPersona ){
-                        if (value.id ==id){
-                            BD_Persona.arregloPersonas.set(index,Obj_Persona(id,nombre,apellido,edad.toInt(),sexo) )
-                            adaptador.notifyDataSetChanged()
-                            //registerForContextMenu(listPersonas)
-                        }
-                        index++
-                    }
-
-
-                }
-            }
-
-        }
-
-
-    }
 
     override fun onCreateContextMenu(
         menu: ContextMenu?,
@@ -135,38 +126,39 @@ class Persona : AppCompatActivity() {
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        val listPersonas = findViewById<ListView>(R.id.tv_lista_personas)
-        val adaptador = ArrayAdapter(
-            this, //Contexto
-            android.R.layout.simple_list_item_1, //Como se va a ver en el XML
-            BD_Persona.arregloPersonas //Arreglo
-        )
-        listPersonas.adapter = adaptador
-        adaptador.notifyDataSetChanged()
+        val objPersona:Obj_Persona = adaptador!!.getItem(idItemSeleccionado)!!
         return when(item.itemId){
             R.id.mi_editar_persona ->{
                 irActividadParametros(Formulario_Persona::class.java)
+
                 return true
             }
 
             R.id.mi_eliminar_persona -> {
-                val auxPersona =  BD_Persona.arregloPersonas[idItemSeleccionado]
-                val auxArrVehiculos = BD_Vehiculo.arregloVehiculos
-                for (value in auxArrVehiculos){
-                    if (value.persona_id == auxPersona.id){
-                        BD_Vehiculo.arregloVehiculos.remove(value)
-                    }
-                }
-                BD_Persona.arregloPersonas.remove(auxPersona)
-                adaptador.notifyDataSetChanged()
-                registerForContextMenu(listPersonas)
 
+                //Firestore
+                personas.document("${objPersona.id}").delete()
+                    .addOnSuccessListener {
+                        Log.i("Mensaje","Persona eliminada")
+                    }
+                    .addOnFailureListener{
+                        Log.i("Error","Fallo al eliminar persona")
+                    }
+
+                //Local
+                /*
+
+                BD_Persona.arregloPersonas.remove(auxPersona)
+
+                 */
+                actualizarLista()
                 return true
             }
 
             R.id.mi_ver_vehiculos -> {
                 Log.i("context-menu", "Ver vehículos: ${idItemSeleccionado}")
                 irActividadParametros(Vehiculo::class.java)
+                idItemSeleccionado=-1
                 return true
             }
 
