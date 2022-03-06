@@ -8,6 +8,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class Formulario_Vehiculo : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,6 +64,32 @@ class Formulario_Vehiculo : AppCompatActivity() {
             val txt_motorizado = findViewById<RadioButton>(radioButton_Idmotorizado)
             val radioButton_Idestado = rbg_estado.checkedRadioButtonId
             val txt_estado = findViewById<RadioButton>(radioButton_Idestado)
+
+            //Firestore
+            val nuevaVehiculo = hashMapOf<String,Any>(
+                "avaluo" to txt_avaluo.text.toString().toDouble(),
+                "color" to txt_color.text.toString(),
+                "idPersona" to txt_persona_id.toString(),
+                "motorizado" to txt_motorizado.text.toString(),
+                "numero_llantas" to txt_llantas.text.toString().toInt(),
+                "placa" to txt_placa.text.toString(),
+                "tipo" to txt_tipo.text.toString()
+
+            )
+            val db = Firebase.firestore
+            val referencia = db.collection("Persona")
+            referencia
+                .add(nuevaVehiculo)
+                .addOnSuccessListener {
+                    Log.i("Mensaje","Persona guardada")
+                }
+                .addOnFailureListener {
+                    Log.i("Error","No se pudo guardar la Persona")
+                }
+
+            //Local
+
+
             val intentDevolverPersona = Intent()
             intentDevolverPersona.putExtra("placa",txt_placa.text.toString())
             intentDevolverPersona.putExtra("tipo",txt_tipo.text.toString())

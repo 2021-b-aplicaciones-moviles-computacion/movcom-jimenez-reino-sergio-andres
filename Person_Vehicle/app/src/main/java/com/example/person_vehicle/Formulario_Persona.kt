@@ -7,6 +7,10 @@ import android.util.Log
 import android.widget.*
 import androidx.core.view.get
 import androidx.core.view.iterator
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class Formulario_Persona : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,6 +83,25 @@ class Formulario_Persona : AppCompatActivity() {
         sexo:String
 
     ){
+        //Firestore
+        val nuevaPersona = hashMapOf<String,Any>(
+            "apellido" to apellido,
+            "edad" to edad.toInt(),
+            "nombre" to nombre,
+            "sexo" to sexo
+        )
+        val db = Firebase.firestore
+        val referencia = db.collection("Persona")
+        referencia
+            .add(nuevaPersona)
+            .addOnSuccessListener {
+                Log.i("Mensaje","Persona guardada")
+            }
+            .addOnFailureListener {
+                Log.i("Error","No se pudo guardar la Persona")
+            }
+
+        //Local
         val intentDevolverPersona = Intent()
         intentDevolverPersona.putExtra("id",id)
         intentDevolverPersona.putExtra("nombre",nombre)
