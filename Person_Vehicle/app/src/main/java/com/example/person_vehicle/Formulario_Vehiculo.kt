@@ -26,35 +26,39 @@ class Formulario_Vehiculo : AppCompatActivity() {
 
         val txt_persona_id = intent.getStringExtra("persona_id")
 
+        val actualizar:Boolean = intent.getBooleanExtra("actualizar",false)
 
-        txt_placa.setText(intent.getStringExtra("placa"))
-        txt_tipo.setText(intent.getStringExtra("tipo"))
-        txt_color.setText(intent.getStringExtra("color"))
-        txt_llantas.setText(intent.getIntExtra("numero_llantas",0).toString())
-        txt_avaluo.setText(intent.getDoubleExtra("avaluo",0.0).toString())
-        val txt_motorizado = intent.getStringExtra("motorizado")
-        val txt_estado = intent.getStringExtra("estado")
+        if (actualizar) {
+            val objVehiculo: Obj_Vehiculo = intent.getParcelableExtra<Obj_Vehiculo>("Vehiculo")!!
 
-        if(txt_motorizado=="Si"){
-           rbg_motorizado.check(R.id.rdb_motorizado_si)
-        }
-        if(txt_motorizado=="No"){
-           rbg_motorizado.check(R.id.rdb_motorizado_no)
-        }
-        if(txt_estado=="Bueno"){
-           rbg_estado.check(R.id.rdb_estado_bueno)
-        }
-        if(txt_estado=="Regular"){
-            rbg_estado.check(R.id.rdb_estado_regular)
-        }
-        if(txt_estado=="Malo"){
-            rbg_estado.check(R.id.rdb_estado_malo)
-        }
+            txt_placa.setText(objVehiculo.placa)
+            txt_tipo.setText(objVehiculo.tipo)
+            txt_color.setText(objVehiculo.color)
+            txt_llantas.setText(objVehiculo.numero_llantas.toString())
+            txt_avaluo.setText(objVehiculo.avaluo.toString())
+            val txt_motorizado = objVehiculo.motorizado
+            val txt_estado = objVehiculo.estado
 
-       if(txt_placa.text.toString()!=""){
-           txt_placa.isEnabled = false
-       }
+            if (txt_motorizado == "Si") {
+                rbg_motorizado.check(R.id.rdb_motorizado_si)
+            }
+            if (txt_motorizado == "No") {
+                rbg_motorizado.check(R.id.rdb_motorizado_no)
+            }
+            if (txt_estado == "Bueno") {
+                rbg_estado.check(R.id.rdb_estado_bueno)
+            }
+            if (txt_estado == "Regular") {
+                rbg_estado.check(R.id.rdb_estado_regular)
+            }
+            if (txt_estado == "Malo") {
+                rbg_estado.check(R.id.rdb_estado_malo)
+            }
 
+            if (txt_placa.text.toString() != "") {
+                txt_placa.isEnabled = false
+            }
+        }
         val botonGuardar = findViewById<Button>(R.id.btn_registrar_vehiculo)
 
 
@@ -66,47 +70,18 @@ class Formulario_Vehiculo : AppCompatActivity() {
             val txt_estado = findViewById<RadioButton>(radioButton_Idestado)
 
             //Firestore
-            val nuevaVehiculo = hashMapOf<String,Any>(
-                "avaluo" to txt_avaluo.text.toString().toDouble(),
-                "color" to txt_color.text.toString(),
-                "idPersona" to txt_persona_id.toString(),
-                "motorizado" to txt_motorizado.text.toString(),
-                "numero_llantas" to txt_llantas.text.toString().toInt(),
-                "placa" to txt_placa.text.toString(),
-                "tipo" to txt_tipo.text.toString()
+            devolverVehiculo(
+                txt_placa.text.toString(),
+                txt_tipo.text.toString(),
+                txt_color.text.toString(),
+                txt_llantas.text.toString(),
+                txt_avaluo.text.toString(),
+                txt_motorizado.text.toString(),
+                txt_estado.text.toString(),
+                txt_persona_id.toString(),
+                actualizar
 
             )
-            val db = Firebase.firestore
-            val referencia = db.collection("Vehiculo")
-            referencia
-                .add(nuevaVehiculo)
-                .addOnSuccessListener {
-                    Log.i("Mensaje","Persona guardada")
-                }
-                .addOnFailureListener {
-                    Log.i("Error","No se pudo guardar la Persona")
-                }
-
-            //Local
-
-
-            val intentDevolverPersona = Intent()
-            intentDevolverPersona.putExtra("placa",txt_placa.text.toString())
-            intentDevolverPersona.putExtra("tipo",txt_tipo.text.toString())
-            intentDevolverPersona.putExtra("color",txt_color.text.toString())
-            intentDevolverPersona.putExtra("numero_llantas",txt_llantas.text.toString())
-            intentDevolverPersona.putExtra("avaluo",txt_avaluo.text.toString())
-            intentDevolverPersona.putExtra("motorizado",txt_motorizado.text.toString())
-            intentDevolverPersona.putExtra("estado",txt_estado.text.toString())
-            intentDevolverPersona.putExtra("persona_id",txt_persona_id.toString())
-
-            setResult(
-                RESULT_OK,
-                intentDevolverPersona
-            )
-            finish()
-
-
         }
 
         val botonSalir = findViewById<Button>(R.id.btn_salir_vehiculo)
@@ -114,5 +89,75 @@ class Formulario_Vehiculo : AppCompatActivity() {
         botonSalir.setOnClickListener{
             finish()
         }
+    }
+
+    fun devolverVehiculo(
+        placa:String,
+        tipo:String,
+        color:String,
+        numero_llantas:String,
+        avaluo:String,
+        motorizado:String,
+        estado:String,
+        persona_id:String,
+        actualizar:Boolean
+
+    ){
+        //Firestore
+        val nuevaPersona = hashMapOf<String,Any>(
+            "placa" to placa,
+            "tipo" to tipo,
+            "color" to color,
+            "numero_llantas" to numero_llantas.toInt(),
+            "avaluo" to avaluo.toDouble(),
+            "motorizado" to motorizado,
+            "estado" to estado,
+            "persona_id" to persona_id
+        )
+        val db = Firebase.firestore
+        val referencia = db.collection("Vehiculo")
+        if(!actualizar){
+            referencia
+                .add(nuevaPersona)
+                .addOnSuccessListener {
+                    Log.i("Mensaje","Vehiculo guardado")
+                }
+                .addOnFailureListener {
+                    Log.i("Error","No se pudo guardar el Vehiculo")
+                }
+        }else{
+            referencia
+                .document("${placa}")
+                .update(
+                    "placa" , placa,
+                    "tipo" , tipo,
+                    "color" , color,
+                    "numero_llantas" , numero_llantas.toInt(),
+                    "avaluo" , avaluo.toDouble(),
+                    "motorizado" , motorizado,
+                    "estado" , estado,
+                    "persona_id" , persona_id
+                )
+                .addOnSuccessListener {
+                    Log.i("Mensaje","Vehiculo actualizado")
+                }
+                .addOnFailureListener {
+                    Log.i("Error","No se pudo actualizar el Vehiculo")
+                }
+        }
+
+
+        //Local
+
+        val intentDevolverVehiculo= Intent()
+
+        setResult(
+            RESULT_OK,
+            intentDevolverVehiculo
+        )
+
+
+
+        finish()
     }
 }

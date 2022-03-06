@@ -21,7 +21,7 @@ class Obj_Persona (
     }
 
     override fun toString(): String {
-        return "${id} : ${nombre} ${apellido} ${edad} ${sexo}"
+        return "${id} : ${nombre} | ${apellido} | ${edad} | ${sexo}"
     }
 
     override fun describeContents(): Int {

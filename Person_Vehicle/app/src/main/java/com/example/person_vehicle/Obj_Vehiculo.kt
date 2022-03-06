@@ -27,7 +27,7 @@ class Obj_Vehiculo(
     }
 
     override fun toString(): String {
-        return "${placa} : ${tipo}, ${color}, ${numero_llantas}, ${avaluo}, ${motorizado}, ${estado}, ${persona_id}"
+        return "${placa} : ${tipo} | ${color} | ${numero_llantas} | ${avaluo} | ${motorizado} | ${estado}"
     }
 
     override fun describeContents(): Int {

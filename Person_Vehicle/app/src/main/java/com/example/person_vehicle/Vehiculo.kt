@@ -32,9 +32,9 @@ class Vehiculo : AppCompatActivity() {
         val objPersona:Obj_Persona = intent.getParcelableExtra<Obj_Persona>("Persona")!!
         nombre = objPersona.nombre.toString()
         apellido = objPersona.apellido.toString()
-        persona_id = objPersona.apellido.toString()
+        persona_id = objPersona.id.toString()
 
-        actualizarLista(persona_id)
+        actualizarLista()
 
 
         val txt_persona = findViewById<TextView>(R.id.txt_persona)
@@ -45,7 +45,7 @@ class Vehiculo : AppCompatActivity() {
         val botonAddVehiculo = findViewById<Button>(R.id.btn_add_vehiculo)
         botonAddVehiculo
             .setOnClickListener {
-                irActividad(Formulario_Vehiculo::class.java)
+                irActividadParametros(Formulario_Vehiculo::class.java)
 
             }
 
@@ -71,6 +71,7 @@ class Vehiculo : AppCompatActivity() {
         if (idItemSeleccionado > -1){
             val objVehiculo:Obj_Vehiculo = adaptador!!.getItem(idItemSeleccionado)!!
             intentExplicito.putExtra("Vehiculo",objVehiculo)
+            intentExplicito.putExtra("persona_id",persona_id)
             intentExplicito.putExtra("actualizar",true)
         }
 
@@ -81,7 +82,7 @@ class Vehiculo : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        actualizarLista(persona_id)
+        actualizarLista()
 
     }
 
@@ -120,7 +121,7 @@ class Vehiculo : AppCompatActivity() {
                         Log.i("Error","Fallo al eliminar vehiculo")
                     }
 
-                actualizarLista(persona_id)
+                actualizarLista()
                 return true
             }
 
@@ -128,9 +129,10 @@ class Vehiculo : AppCompatActivity() {
         }
     }
 
-    fun actualizarLista(idPersona:String){
-        val listVehiculo = findViewById<ListView>(R.id.tv_lista_personas)
-        val vehiculosPersona = vehiculos.whereEqualTo("idPersona","${idPersona}")
+    fun actualizarLista(){
+        val listVehiculo = findViewById<ListView>(R.id.tv_lista_vehiculos)
+        val vehiculosPersona = vehiculos.whereEqualTo("persona_id","${persona_id}")
+        Log.i("vehiculos",vehiculosPersona.toString())
         vehiculosPersona.get().addOnSuccessListener {
                 result ->
             var listaVehiculos = arrayListOf<Obj_Vehiculo>()
@@ -145,7 +147,7 @@ class Vehiculo : AppCompatActivity() {
                         document.get("avaluo").toString().toDouble(),
                         document.get("motorizado").toString(),
                         document.get("estado").toString(),
-                        document.get("idPersona").toString()
+                        document.get("persona_id").toString()
                     )
                 )
 
