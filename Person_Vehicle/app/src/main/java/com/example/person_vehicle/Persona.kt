@@ -77,14 +77,8 @@ class Persona : AppCompatActivity() {
 
     }
 
-    fun irActividad(clase: Class<*>){
-        val intent = Intent(this, clase)
-        startActivityForResult(intent, CREAR_PERSONA)
-    }
-
     fun irActividadParametros(clase: Class<*>){
         val intentExplicito = Intent(this, clase)
-        //Enviar parametreos (Solamente variables primitivas)
 
         //Firestore
         if (idItemSeleccionado > -1){
@@ -93,21 +87,15 @@ class Persona : AppCompatActivity() {
             intentExplicito.putExtra("actualizar",true)
         }
 
-
-        //Local
-        /*
-        val objPersona:Obj_Persona = BD_Persona.arregloPersonas[idItemSeleccionado]
-        intentExplicito.putExtra("id",objPersona.id)
-        intentExplicito.putExtra("nombre",objPersona.nombre)
-        intentExplicito.putExtra("apellido",objPersona.apellido)
-        intentExplicito.putExtra("edad",objPersona.edad)
-        intentExplicito.putExtra("sexo",objPersona.sexo)
-        //resultLauncher.launch(intentExplicito)
-         */
         idItemSeleccionado=-1
         startActivityForResult(intentExplicito, ACTUALIZAR_PERSONA)
     }
 
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        actualizarLista()
+    }
 
 
 
@@ -130,7 +118,6 @@ class Persona : AppCompatActivity() {
         return when(item.itemId){
             R.id.mi_editar_persona ->{
                 irActividadParametros(Formulario_Persona::class.java)
-
                 return true
             }
 
@@ -145,12 +132,6 @@ class Persona : AppCompatActivity() {
                         Log.i("Error","Fallo al eliminar persona")
                     }
 
-                //Local
-                /*
-
-                BD_Persona.arregloPersonas.remove(auxPersona)
-
-                 */
                 actualizarLista()
                 return true
             }

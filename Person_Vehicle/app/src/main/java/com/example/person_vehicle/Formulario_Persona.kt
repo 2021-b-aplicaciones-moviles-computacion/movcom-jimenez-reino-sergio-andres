@@ -52,33 +52,6 @@ class Formulario_Persona : AppCompatActivity() {
         }
 
 
-
-        //Local
-        /*
-        val edad:Int = intent.getIntExtra("edad",0)
-        Log.i("Edad", edad.toString())
-        txt_id.setText(intent.getStringExtra("id"))
-        txt_nombre.setText(intent.getStringExtra("nombre"))
-        txt_apellido.setText(intent.getStringExtra("apellido"))
-        txt_edad.setText(edad.toString())
-        val txt_sexo = intent.getStringExtra("sexo")
-        Log.i("Sexo", txt_sexo.toString())
-
-        if(txt_sexo=="Masculino"){
-            rbg_sexo.check(R.id.rdb_masculino)
-        }
-        if(txt_sexo=="Femenino"){
-            rbg_sexo.check(R.id.rdb_femenino)
-        }
-        if(txt_sexo=="Otro"){
-            rbg_sexo.check(R.id.rdb_otro)
-        }
-
-        if(edad!=0){
-            txt_id.isEnabled = false
-        }
-        */
-
         val botonGuardar = findViewById<Button>(R.id.btn_registrar_persona)
 
 
@@ -151,20 +124,14 @@ class Formulario_Persona : AppCompatActivity() {
 
 
         //Local
-        /*
+
         val intentDevolverPersona = Intent()
-        intentDevolverPersona.putExtra("id",id)
-        intentDevolverPersona.putExtra("nombre",nombre)
-        intentDevolverPersona.putExtra("apellido",apellido)
-        intentDevolverPersona.putExtra("edad",edad)
-        intentDevolverPersona.putExtra("sexo",sexo)
 
         setResult(
             RESULT_OK,
             intentDevolverPersona
         )
 
-    */
 
 
         finish()
