@@ -45,6 +45,7 @@ class Vehiculo : AppCompatActivity() {
         val botonAddVehiculo = findViewById<Button>(R.id.btn_add_vehiculo)
         botonAddVehiculo
             .setOnClickListener {
+                idItemSeleccionado=-1
                 irActividadParametros(Formulario_Vehiculo::class.java)
 
             }

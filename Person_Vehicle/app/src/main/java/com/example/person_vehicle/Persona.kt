@@ -34,6 +34,7 @@ class Persona : AppCompatActivity() {
         val botonAddPersona = findViewById<Button>(R.id.btn_add_persona)
         botonAddPersona
             .setOnClickListener {
+                idItemSeleccionado=-1
                 irActividadParametros(Formulario_Persona::class.java)
             }
 
