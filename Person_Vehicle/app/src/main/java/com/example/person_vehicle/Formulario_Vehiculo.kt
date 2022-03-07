@@ -127,7 +127,7 @@ class Formulario_Vehiculo : AppCompatActivity() {
 
     ){
         //Firestore
-        val nuevaPersona = hashMapOf<String,Any>(
+        val nuevoVehiculo = hashMapOf<String,Any>(
             "placa" to placa,
             "tipo" to tipo,
             "color" to color,
@@ -141,7 +141,7 @@ class Formulario_Vehiculo : AppCompatActivity() {
         val referencia = db.collection("Vehiculo")
         if(!actualizar){
             referencia
-                .add(nuevaPersona)
+                .add(nuevoVehiculo)
                 .addOnSuccessListener {
                     Log.i("Mensaje","Vehiculo guardado")
                 }

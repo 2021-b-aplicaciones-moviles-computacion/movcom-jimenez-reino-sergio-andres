@@ -44,7 +44,7 @@ class Formulario_Persona : AppCompatActivity() {
                         document.get("edad").toString().toInt(),
                         document.get("sexo").toString()
                     )
-                    Toast.makeText(this, objPersona.toString(), Toast.LENGTH_SHORT).show()
+
                     txt_id.setText(objPersona.id.toString())
                     txt_nombre.setText(objPersona.nombre.toString())
                     txt_apellido.setText(objPersona.apellido.toString())

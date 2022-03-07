@@ -72,9 +72,10 @@ class Vehiculo : AppCompatActivity() {
         if (idItemSeleccionado > -1){
             val objVehiculo:Obj_Vehiculo = adaptador!!.getItem(idItemSeleccionado)!!
             intentExplicito.putExtra("id",objVehiculo.id)
-            intentExplicito.putExtra("persona_id",persona_id)
+
             intentExplicito.putExtra("actualizar",true)
         }
+        intentExplicito.putExtra("persona_id",persona_id)
 
         idItemSeleccionado=-1
 
@@ -114,7 +115,7 @@ class Vehiculo : AppCompatActivity() {
             R.id.mi_eliminar_vehiculo -> {
                 //Firestore
                 val vehiculo = db.collection("Vehiculo")
-                vehiculo.document("${objVehiculo.placa}").delete()
+                vehiculo.document("${objVehiculo.id}").delete()
                     .addOnSuccessListener {
                         Log.i("Mensaje","Vehiculo eliminado")
                     }
