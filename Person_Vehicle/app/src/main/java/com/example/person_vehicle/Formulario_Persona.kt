@@ -29,26 +29,41 @@ class Formulario_Persona : AppCompatActivity() {
         //Firestore
 
         if (intent.getBooleanExtra("actualizar",false)){
-            val objPersona:Obj_Persona = intent.getParcelableExtra<Obj_Persona>("Persona")!!
-            txt_id.setText(objPersona.id.toString())
-            txt_nombre.setText(objPersona.nombre.toString())
-            txt_apellido.setText(objPersona.apellido.toString())
-            txt_edad.setText(objPersona.edad.toString())
-            val txt_sexo = objPersona.sexo.toString()
+            val persona_id = intent.getStringExtra("persona_id")
+            val db = Firebase.firestore
+            val referencia = db.collection("Persona").document("${persona_id}")
 
-            Log.i("Error","${txt_sexo}")
+            referencia.get().addOnSuccessListener { document ->
 
-            if(txt_sexo=="Masculino"){
-                rbg_sexo.check(R.id.rdb_masculino)
+                if (document != null) {
+                    //Toast.makeText(this, "${persona_id}", Toast.LENGTH_SHORT).show()
+                    var objPersona:Obj_Persona =Obj_Persona(
+                        document.id.toString(),
+                        document.get("nombre").toString(),
+                        document.get("apellido").toString(),
+                        document.get("edad").toString().toInt(),
+                        document.get("sexo").toString()
+                    )
+                    Toast.makeText(this, objPersona.toString(), Toast.LENGTH_SHORT).show()
+                    txt_id.setText(objPersona.id.toString())
+                    txt_nombre.setText(objPersona.nombre.toString())
+                    txt_apellido.setText(objPersona.apellido.toString())
+                    txt_edad.setText(objPersona.edad.toString())
+                    val txt_sexo = objPersona.sexo.toString()
+
+                    if(txt_sexo=="Masculino"){
+                        rbg_sexo.check(R.id.rdb_masculino)
+                    }
+                    if(txt_sexo=="Femenino"){
+                        rbg_sexo.check(R.id.rdb_femenino)
+                    }
+                    if(txt_sexo=="Otro"){
+                        rbg_sexo.check(R.id.rdb_otro)
+                    }
+                }else{
+                    Toast.makeText(this, "Fallo", Toast.LENGTH_SHORT).show()
+                }
             }
-            if(txt_sexo=="Femenino"){
-                rbg_sexo.check(R.id.rdb_femenino)
-            }
-            if(txt_sexo=="Otro"){
-                rbg_sexo.check(R.id.rdb_otro)
-            }
-
-
         }
 
 
@@ -65,7 +80,7 @@ class Formulario_Persona : AppCompatActivity() {
                 txt_apellido.text.toString(),
                 txt_edad.text.toString(),
                 txt_sexo.text.toString(),
-                )
+            )
 
         }
 

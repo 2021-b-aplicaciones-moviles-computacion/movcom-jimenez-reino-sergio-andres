@@ -44,7 +44,7 @@ class Persona : AppCompatActivity() {
         val listPersonas = findViewById<ListView>(R.id.tv_lista_personas)
 
         personas.get().addOnSuccessListener {
-            result ->
+                result ->
             var listaPersonas = arrayListOf<Obj_Persona>()
 
             for (document in result){
@@ -84,6 +84,7 @@ class Persona : AppCompatActivity() {
         if (idItemSeleccionado > -1){
             val objPersona:Obj_Persona = adaptador!!.getItem(idItemSeleccionado)!!
             intentExplicito.putExtra("Persona",objPersona)
+            intentExplicito.putExtra("persona_id",objPersona.id)
             intentExplicito.putExtra("actualizar",true)
         }
 

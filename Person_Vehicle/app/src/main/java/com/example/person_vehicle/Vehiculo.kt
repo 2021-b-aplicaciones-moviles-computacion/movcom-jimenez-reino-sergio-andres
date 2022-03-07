@@ -70,7 +70,7 @@ class Vehiculo : AppCompatActivity() {
         //Firestore
         if (idItemSeleccionado > -1){
             val objVehiculo:Obj_Vehiculo = adaptador!!.getItem(idItemSeleccionado)!!
-            intentExplicito.putExtra("Vehiculo",objVehiculo)
+            intentExplicito.putExtra("id",objVehiculo.id)
             intentExplicito.putExtra("persona_id",persona_id)
             intentExplicito.putExtra("actualizar",true)
         }
@@ -140,6 +140,7 @@ class Vehiculo : AppCompatActivity() {
             for (document in result){
                 listaVehiculos.add(
                     Obj_Vehiculo(
+                        document.id.toString(),
                         document.get("placa").toString(),
                         document.get("tipo").toString(),
                         document.get("color").toString(),

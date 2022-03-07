@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class Obj_Vehiculo(
+    val id: String,
     val placa: String,
     val tipo: String,
     val color: String,
@@ -14,6 +15,7 @@ class Obj_Vehiculo(
     val persona_id: String
 ):Parcelable {
     constructor(parcel: Parcel): this(
+        parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
@@ -35,6 +37,7 @@ class Obj_Vehiculo(
     }
 
     override fun writeToParcel(p0: Parcel?, p1: Int) {
+        p0?.writeString(id)
         p0?.writeString(placa)
         p0?.writeString(tipo)
         p0?.writeString(color)

@@ -4,10 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RadioButton
-import android.widget.RadioGroup
+import android.widget.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -24,41 +21,65 @@ class Formulario_Vehiculo : AppCompatActivity() {
         val rbg_estado = findViewById<RadioGroup>(R.id.rdg_estado)
         val rbg_motorizado = findViewById<RadioGroup>(R.id.rdg_motorizado)
 
+        val id = intent.getStringExtra("id")
+
         val txt_persona_id = intent.getStringExtra("persona_id")
 
         val actualizar:Boolean = intent.getBooleanExtra("actualizar",false)
 
+
         if (actualizar) {
-            val objVehiculo: Obj_Vehiculo = intent.getParcelableExtra<Obj_Vehiculo>("Vehiculo")!!
+            //val objVehiculo: Obj_Vehiculo = intent.getParcelableExtra<Obj_Vehiculo>("Vehiculo")!!
 
-            txt_placa.setText(objVehiculo.placa)
-            txt_tipo.setText(objVehiculo.tipo)
-            txt_color.setText(objVehiculo.color)
-            txt_llantas.setText(objVehiculo.numero_llantas.toString())
-            txt_avaluo.setText(objVehiculo.avaluo.toString())
-            val txt_motorizado = objVehiculo.motorizado
-            val txt_estado = objVehiculo.estado
+            val db = Firebase.firestore
+            val referencia = db.collection("Vehiculo").document("${id}")
+            referencia.get().addOnSuccessListener { document ->
+                if(document != null){
 
-            if (txt_motorizado == "Si") {
-                rbg_motorizado.check(R.id.rdb_motorizado_si)
-            }
-            if (txt_motorizado == "No") {
-                rbg_motorizado.check(R.id.rdb_motorizado_no)
-            }
-            if (txt_estado == "Bueno") {
-                rbg_estado.check(R.id.rdb_estado_bueno)
-            }
-            if (txt_estado == "Regular") {
-                rbg_estado.check(R.id.rdb_estado_regular)
-            }
-            if (txt_estado == "Malo") {
-                rbg_estado.check(R.id.rdb_estado_malo)
-            }
+                    var objVehiculo:Obj_Vehiculo =Obj_Vehiculo(
+                        document.id.toString(),
+                        document.get("placa").toString(),
+                        document.get("tipo").toString(),
+                        document.get("color").toString(),
+                        document.get("numero_llantas").toString().toInt(),
+                        document.get("avaluo").toString().toDouble(),
+                        document.get("motorizado").toString(),
+                        document.get("estado").toString(),
+                        document.get("persona_id").toString()
+                    )
 
-            if (txt_placa.text.toString() != "") {
-                txt_placa.isEnabled = false
+                    txt_placa.setText(objVehiculo.placa)
+                    txt_tipo.setText(objVehiculo.tipo)
+                    txt_color.setText(objVehiculo.color)
+                    txt_llantas.setText(objVehiculo.numero_llantas.toString())
+                    txt_avaluo.setText(objVehiculo.avaluo.toString())
+                    val txt_motorizado = objVehiculo.motorizado
+                    val txt_estado = objVehiculo.estado
+
+                    if (txt_motorizado == "Si") {
+                        rbg_motorizado.check(R.id.rdb_motorizado_si)
+                    }
+                    if (txt_motorizado == "No") {
+                        rbg_motorizado.check(R.id.rdb_motorizado_no)
+                    }
+                    if (txt_estado == "Bueno") {
+                        rbg_estado.check(R.id.rdb_estado_bueno)
+                    }
+                    if (txt_estado == "Regular") {
+                        rbg_estado.check(R.id.rdb_estado_regular)
+                    }
+                    if (txt_estado == "Malo") {
+                        rbg_estado.check(R.id.rdb_estado_malo)
+                    }
+
+                    if (txt_placa.text.toString() != "") {
+                        txt_placa.isEnabled = false
+                    }
+                }
             }
         }
+
+
         val botonGuardar = findViewById<Button>(R.id.btn_registrar_vehiculo)
 
 
@@ -71,6 +92,7 @@ class Formulario_Vehiculo : AppCompatActivity() {
 
             //Firestore
             devolverVehiculo(
+                id.toString(),
                 txt_placa.text.toString(),
                 txt_tipo.text.toString(),
                 txt_color.text.toString(),
@@ -92,6 +114,7 @@ class Formulario_Vehiculo : AppCompatActivity() {
     }
 
     fun devolverVehiculo(
+        id:String,
         placa:String,
         tipo:String,
         color:String,
@@ -127,7 +150,7 @@ class Formulario_Vehiculo : AppCompatActivity() {
                 }
         }else{
             referencia
-                .document("${placa}")
+                .document("${id}")
                 .update(
                     "placa" , placa,
                     "tipo" , tipo,
